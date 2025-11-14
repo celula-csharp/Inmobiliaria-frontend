@@ -1,1 +1,1 @@
-export * from "./register.types";
+export * from "./auth.types";

@@ -9,6 +9,8 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/schemas";
 import type { LoginFormValues } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +20,8 @@ import { Link } from "react-router";
 
 export default function Login() {
   const [showPass, setShowPass] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const { login } = useAuth();
 
   const {
     register,
@@ -27,8 +31,14 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: LoginFormValues) => {
+    setLoading(true);
+    try {
+      await new Promise((r) => setTimeout(r, 2000));
+      await login(data);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,7 +81,10 @@ export default function Login() {
             </Field>
           </FieldSet>
           <FieldSet>
-            <Button type="submit">Iniciar sesión</Button>
+            <Button type="submit" disabled={loading}>
+              {loading && <Spinner />}
+              Iniciar sesión
+            </Button>
             <FieldDescription className="flex flex-col justify-center items-center gap-3">
               ¿No tienes una cuenta?
               <Button variant="outline" className="no-underline!" asChild>
