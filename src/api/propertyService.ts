@@ -26,7 +26,7 @@ export interface ContactFormData {
 
 const getAllProperties = async (params?: PropertyFilterParams): Promise<PropertyDto[]> => {
     try {
-    const response = await apiClient.get<PropertyDto[]>('/PropertyControlle/GetAll', { params });
+    const response = await apiClient.get<PropertyDto[]>('/Property/GetAll', { params });
     return response.data;
     } catch (error) {
     console.error('Error al obtener las propiedades:', error);
@@ -37,7 +37,7 @@ const getAllProperties = async (params?: PropertyFilterParams): Promise<Property
 
 const getPropertyById = async (id: number): Promise<PropertyDto> => {
     try {
-    const response = await apiClient.get<PropertyDto>(`/PropertyControlle/${id}`);
+    const response = await apiClient.get<PropertyDto>(`/Property/${id}`);
     return response.data;
     } catch (error) {
     console.error(`Error al obtener la propiedad con ID ${id}:`, error);
